@@ -1,6 +1,6 @@
-import React from "react";
 import Logo from "../Logo/Logo";
 import { Link } from "react-router";
+import { AuthContext } from "../../Firebase/AuthContext/AuthContext";
 
 const Navbar = () => {
   const links = (
