@@ -5,8 +5,16 @@ import logoImg from "../assets/logo.png";
 import { FaRegCreditCard, FaUser } from "react-icons/fa";
 import { FcApproval } from "react-icons/fc";
 import { RiEBikeFill } from "react-icons/ri";
+import useRole from "../Hooks/useRole/useRole";
+import Loding from "../Components/Loading/Loding";
 
 const Dashboard = () => {
+  const { role, roleLoading } = useRole();
+
+  if (roleLoading) {
+    return <Loding></Loding>;
+  }
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -90,61 +98,85 @@ const Dashboard = () => {
 
             {/* My Icons added here */}
 
-            <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="MyParcels"
-                to={"/dashboard/myParcel"}
-              >
-                <CiDeliveryTruck size={20} />
+            {role === "user" && (
+              <>
+                {/* My Parcel */}
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="MyParcels"
+                    to={"/dashboard/myParcel"}
+                  >
+                    <CiDeliveryTruck size={20} />
 
-                <span className="is-drawer-close:hidden"> My Parcels</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Payment History"
-                to={"/dashboard/payment-history"}
-              >
-                <FaRegCreditCard size={17} />
+                    <span className="is-drawer-close:hidden"> My Parcels</span>
+                  </NavLink>
+                </li>
 
-                <span className="is-drawer-close:hidden">Payment History</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Users Management"
-                to={"/dashboard/user-management"}
-              >
-                <FaUser size={17} />
+                {/* payment history */}
 
-                <span className="is-drawer-close:hidden">Users Management</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Approved Riders"
-                to={"/dashboard/approved-rider"}
-              >
-                <FcApproval size={22} />
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Payment History"
+                    to={"/dashboard/payment-history"}
+                  >
+                    <FaRegCreditCard size={17} />
 
-                <span className="is-drawer-close:hidden">Approved Riders</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Assigns Riders"
-                to={"/dashboard/assign-riders"}
-              >
-                <RiEBikeFill size={17} />
+                    <span className="is-drawer-close:hidden">
+                      Payment History
+                    </span>
+                  </NavLink>
+                </li>
+              </>
+            )}
 
-                <span className="is-drawer-close:hidden">Assign Riders</span>
-              </NavLink>
-            </li>
+            {/* Users Management */}
+
+            {role === "admin" && (
+              <>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Users Management"
+                    to={"/dashboard/user-management"}
+                  >
+                    <FaUser size={17} />
+
+                    <span className="is-drawer-close:hidden">
+                      Users Management
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Approved Riders"
+                    to={"/dashboard/approved-rider"}
+                  >
+                    <FcApproval size={22} />
+
+                    <span className="is-drawer-close:hidden">
+                      Approved Riders
+                    </span>
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Assigns Riders"
+                    to={"/dashboard/assign-riders"}
+                  >
+                    <RiEBikeFill size={17} />
+
+                    <span className="is-drawer-close:hidden">
+                      Assign Riders
+                    </span>
+                  </NavLink>
+                </li>
+              </>
+            )}
 
             {/* List item */}
             <li>

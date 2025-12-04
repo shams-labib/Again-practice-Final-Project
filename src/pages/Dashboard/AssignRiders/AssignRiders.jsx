@@ -120,7 +120,7 @@ const AssignRiders = () => {
               </thead>
               <tbody>
                 {riders.map((rider, index) => (
-                  <tr>
+                  <tr key={rider._id}>
                     <th>{index + 1}</th>
                     <td>{rider.name}</td>
                     <td>{rider.email}</td>
