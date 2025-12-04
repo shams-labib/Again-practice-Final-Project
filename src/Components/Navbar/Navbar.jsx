@@ -1,8 +1,18 @@
 import Logo from "../Logo/Logo";
 import { Link } from "react-router";
 import { AuthContext } from "../../Firebase/AuthContext/AuthContext";
+import useAuth from "../../Hooks/useAuth";
+import Loding from "../Loading/Loding";
 
 const Navbar = () => {
+  const { user, signOutUser, loading } = useAuth();
+
+  const handleSignOutUser = () => {
+    signOutUser()
+      .then()
+      .catch((err) => console.log(err));
+  };
+
   const links = (
     <>
       <li>
@@ -15,6 +25,17 @@ const Navbar = () => {
       <li>
         <Link to={"/coverage"}>Coverage</Link>
       </li>
+
+      {user && (
+        <>
+          <li>
+            <Link to={"/send-parcel"}>Send Parcel</Link>
+          </li>
+          <li>
+            <Link to={"/dashboard/myParcel"}>My Parcel</Link>
+          </li>
+        </>
+      )}
     </>
   );
 
@@ -55,7 +76,20 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Button</a>
+          {loading ? (
+            <Loding></Loding>
+          ) : user ? (
+            <Link onClick={handleSignOutUser} className="btn">
+              Log Out
+            </Link>
+          ) : (
+            <Link to={"/login"} className="btn">
+              Login
+            </Link>
+          )}
+          <Link to={"/rider"} className="btn btn-primary text-black ml-2">
+            Be a rider
+          </Link>
         </div>
       </div>
     </div>

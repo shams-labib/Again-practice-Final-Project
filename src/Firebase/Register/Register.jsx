@@ -2,6 +2,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
 import Loding from "../../Components/Loading/Loding";
+import axios from "axios";
+import { Link } from "react-router";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Register = () => {
   const {
@@ -10,9 +13,7 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const { createUser, loading } = useAuth();
-
-  //   আগামীকাল Update user profile mal করতে হবে
+  const { createUser, loading, updateUserProfile } = useAuth();
 
   if (loading) {
     return <Loding></Loding>;
@@ -23,17 +24,28 @@ const Register = () => {
 
     createUser(data.email, data.password)
       .then((result) => {
-        const UpdateInfo = {
-          displayName: data.name,
-        };
+        const formData = new FormData();
+        formData.append("image", photo);
 
-        updateUserProfile(UpdateInfo)
-          .then((mal) => {
-            console.log(mal);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        const image_URL = `https://api.imgbb.com/1/upload?&key=${
+          import.meta.env.VITE_IMGBB_HOST
+        }`;
+
+        axios.post(image_URL, formData).then((res) => {
+          const photoImage = res.data.data.url;
+
+          const updateUser = {
+            displayName: data.name,
+            photoURL: photoImage,
+          };
+
+          updateUserProfile(updateUser)
+            .then()
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+        console.log(result.user);
       })
       .catch((err) => {
         console.log(err);
@@ -101,9 +113,21 @@ const Register = () => {
             <div>
               <a className="link link-hover">Forgot password?</a>
             </div>
-            <button className="btn btn-neutral mt-4">Login</button>
+            <button className="btn btn-neutral mt-4">Register</button>
           </fieldset>
         </form>
+
+        <p>
+          Already have an account ?{" "}
+          <Link
+            to={"/login"}
+            className="text-blue-400 font-semibold hover:text-blue-700"
+          >
+            Login Now
+          </Link>
+        </p>
+
+        <SocialLogin></SocialLogin>
       </div>
     </div>
   );
