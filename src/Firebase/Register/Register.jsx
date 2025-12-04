@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
 import Loding from "../../Components/Loading/Loding";
 import axios from "axios";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
 
 const Register = () => {
   const {
@@ -12,6 +13,8 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   const { createUser, loading, updateUserProfile } = useAuth();
 
@@ -33,6 +36,21 @@ const Register = () => {
 
         axios.post(image_URL, formData).then((res) => {
           const photoImage = res.data.data.url;
+
+          // user create
+
+          const userInfo = {
+            email: data.email,
+            displayName: data.name,
+            photoURL: photoImage,
+          };
+
+          axiosSecure.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              console.log("Mal added");
+              navigate("/");
+            }
+          });
 
           const updateUser = {
             displayName: data.name,

@@ -4,10 +4,11 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure/useAxiosSecure";
 import { FaEye, FaUserCheck } from "react-icons/fa";
 import { IoPersonRemoveSharp } from "react-icons/io5";
 import { FaTrashCan } from "react-icons/fa6";
+import Swal from "sweetalert2";
 
 const ApprovedRiders = () => {
   const axiosSecure = useAxiosSecure();
-  const { data: riders = [] } = useQuery({
+  const { data: riders = [], refetch: riderRefetch } = useQuery({
     queryKey: ["rider"],
     queryFn: async () => {
       const res = await axiosSecure.get("/rider");
@@ -15,9 +16,29 @@ const ApprovedRiders = () => {
     },
   });
 
-  const handleApproval = (rider) => {};
+  const updateRiderStatus = (rider, status) => {
+    const riderUpdate = { status: status, email: rider.email };
+    axiosSecure.patch(`/rider/${rider._id}`, riderUpdate).then((res) => {
+      if (res.data.modifiedCount) {
+        riderRefetch();
+        Swal.fire({
+          position: "top-center",
+          showConfirmButton: false,
+          timer: 2000,
+          text: `Riders status set to  ${status}`,
+          icon: "success",
+        });
+      }
+    });
+  };
 
-  const handleRejection = (rider) => {};
+  const handleApproval = (rider) => {
+    updateRiderStatus(rider, "approved");
+  };
+
+  const handleRejection = (rider) => {
+    updateRiderStatus(rider, "rejected");
+  };
 
   return (
     <div>
@@ -31,7 +52,8 @@ const ApprovedRiders = () => {
               <th></th>
               <th>Name</th>
               <th>Email</th>
-              <th>Status</th>
+              <th>Application Status</th>
+              <th>Work Status</th>
               <th>District</th>
               <th>Actions</th>
             </tr>
@@ -53,6 +75,7 @@ const ApprovedRiders = () => {
                     {rider.status}
                   </p>
                 </td>
+                <td>{rider.workStatus}</td>
                 <td>{rider.district}</td>
                 <td>
                   <button className="btn ">

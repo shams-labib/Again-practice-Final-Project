@@ -65,7 +65,7 @@ const MyParcel = () => {
                   )}
                 </td>
                 <td>{parcel.trackingId}</td>
-                <td></td>
+                <td>{parcel.deliveryStatus}</td>
                 <td>Blue</td>
               </tr>
             ))}

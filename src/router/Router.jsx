@@ -13,6 +13,8 @@ import PaymentCancled from "../pages/Dashboard/Payment/PaymentCancel/PaymentCanc
 import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
 import Rider from "../pages/Rider/Rider";
 import ApprovedRiders from "../pages/ApprovedRiders/ApprovedRiders";
+import UserManagement from "../pages/Dashboard/UserManagement/UserManagement";
+import AssignRiders from "../pages/Dashboard/AssignRiders/AssignRiders";
 
 export const router = createBrowserRouter([
   {
@@ -77,6 +79,14 @@ export const router = createBrowserRouter([
       {
         path: "approved-rider",
         Component: ApprovedRiders,
+      },
+      {
+        path: "user-management",
+        Component: UserManagement,
+      },
+      {
+        path: "assign-riders",
+        Component: AssignRiders,
       },
     ],
   },

@@ -2,8 +2,9 @@ import React from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { Link, NavLink, Outlet } from "react-router";
 import logoImg from "../assets/logo.png";
-import { FaRegCreditCard } from "react-icons/fa";
+import { FaRegCreditCard, FaUser } from "react-icons/fa";
 import { FcApproval } from "react-icons/fc";
+import { RiEBikeFill } from "react-icons/ri";
 
 const Dashboard = () => {
   return (
@@ -114,12 +115,34 @@ const Dashboard = () => {
             <li>
               <NavLink
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Users Management"
+                to={"/dashboard/user-management"}
+              >
+                <FaUser size={17} />
+
+                <span className="is-drawer-close:hidden">Users Management</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Approved Riders"
                 to={"/dashboard/approved-rider"}
               >
                 <FcApproval size={22} />
 
                 <span className="is-drawer-close:hidden">Approved Riders</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Assigns Riders"
+                to={"/dashboard/assign-riders"}
+              >
+                <RiEBikeFill size={17} />
+
+                <span className="is-drawer-close:hidden">Assign Riders</span>
               </NavLink>
             </li>
 
